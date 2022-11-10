@@ -1,0 +1,178 @@
+using System;
+namespace OZON
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Random random = new Random();
+            int money = 100;
+            string[] items = { "Энергетик Monster", "Футболка Levis", "Наушники AirPods" };
+            int[] amountOfItems = new int[3];
+            int[] priceToBuy = {random.Next(100, 300), random.Next(400, 600), random.Next(700, 999)};
+            int[] priceToSell = {random.Next(200, 400), random.Next(500, 700), random.Next(800, 1999)};
+            int chanceSale = 30, chanceLostMoney = 0; 
+            string userInput;
+            bool isPlay = true;
+
+            Console.WriteLine("Игра 'OZON'\nНажмите любую кнопку, чтобы начать....");
+            Console.ReadKey();
+
+            while (isPlay)
+            {
+                Console.Clear();
+                Console.WriteLine("         O Z O N\n");
+                ShowInfo(money, items, amountOfItems, priceToBuy, priceToSell, chanceSale, chanceLostMoney);
+                Console.Write("\n--Выберите команду--\n\n    1)Закупка товара\n    2)Продажа товара\n    3)Покупка рекламы - 300\n    4)Конец игры\n\n    Ввод... ");
+                userInput = Console.ReadLine();
+
+                switch (userInput)
+                {
+                    case "1":
+                        BuyNewItem(ref money, ref items, ref amountOfItems, ref priceToBuy);
+                        break;
+                    case "2":
+                        SellItem(random, ref items, ref amountOfItems, ref priceToSell, ref money, ref chanceSale);
+                        break;
+                    case "3":
+                        BuyAdd(ref money, ref chanceSale);
+                        break;
+                    case "4":
+                        isPlay = false;
+                        break;
+                    default:
+                        Console.WriteLine("\nОШИБКА ВВОДА. Нажмите любую ннопку для обновления....");
+                        Console.ReadKey();
+                        break;
+                }
+
+                chanceSale -= 5;
+                chanceLostMoney = chanceSale - 30;
+                LoseMoney(ref money, chanceLostMoney, random);
+            }
+
+            Console.WriteLine("         \nGame over!");
+            Console.ReadKey();
+        }
+
+        static void ShowInfo(int money, string[] items, int[] amountOfItems, int[] priceToBuy, int[] priceToSell, int chanceSell, int chanceLostMoney)
+        {
+            Console.WriteLine("--Информация о бизнесе--\n");
+            Console.WriteLine($"    Количество денег: {money}");
+            Console.WriteLine($"    Шанс продажи: {chanceSell}");
+            Console.WriteLine($"    Шанс непредвиденных ситуаций: {chanceLostMoney}");
+            Console.WriteLine("    Предметы в наличии:");
+
+            for (int i = 0; i < items.Length; i++)
+            {
+                Console.WriteLine($"    @{i+1} {items[i]}({amountOfItems[i]}шт.) - цена для продажи {priceToSell[i]} (закупочная цена {priceToBuy[i]})");
+            }
+        }
+
+        static bool CheckMoney(ref int money, int cost, int amount)
+        {
+            if (money >= cost * amount)
+            {
+                money -= cost * amount;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
+        }
+
+        static void LoseMoney(ref int money, int chance,  Random random)
+        {
+            if (random.Next(100) <= chance)
+            {
+                money -= random.Next(1, money / 2);
+                Console.WriteLine("\n--Сгорел склад с некоторыми Вашими товарами! Вы потеряли какую-то часть денег :( Нажмите любую ннопку для обновления....");
+                Console.ReadKey();
+            }
+        }
+        static void BuyNewItem(ref int money, ref string[] items, ref int[] amountOfItems, ref int[] priceToBuy)
+        {
+            int indexToAdd;
+            int amountToAdd;
+            bool isInt;
+
+            Console.WriteLine("\n--Закупка товара--\n");
+            Console.Write("    Введите номер товара для закупки\n    Ввод... ");
+            isInt = int.TryParse(Console.ReadLine(), out indexToAdd);
+
+            while (!isInt || indexToAdd > items.Length || indexToAdd < 0)
+            {
+                Console.Write("    Номер введен некорректно\n    Ввод... ");
+                isInt = int.TryParse(Console.ReadLine(), out indexToAdd);
+            }
+
+            Console.Write("    Введите количество товара для закупки\n    Ввод... ");
+            isInt = int.TryParse(Console.ReadLine(), out amountToAdd);
+
+            while (!isInt || amountToAdd < 0)
+            {
+                Console.Write("    Номер введен некорректно\n    Ввод... ");
+                isInt = int.TryParse(Console.ReadLine(), out amountToAdd);
+            }
+
+            if (CheckMoney(ref money, priceToBuy[indexToAdd - 1], amountToAdd))
+            {
+                amountOfItems[indexToAdd - 1] += amountToAdd;
+                Console.WriteLine("\n    Транзакция прошла успешно! Нажмите любую кнопку для обновления....");
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.WriteLine("\n     ОШИБКА! Недостаточно средств на счету. Нажмите любую ннопку для обновления....");
+                Console.ReadKey();
+            }
+        }
+
+        static void SellItem(Random random, ref string[] items, ref int[] amountOfItems, ref int[] priceToSell, ref int money, ref int chanceSale)
+        {
+            int choiceItem = random.Next(items.Length);
+            int choiceAmount = random.Next(1, 10);
+
+            Console.WriteLine("\n--Продажа товара--");
+            if (random.Next(101) <= chanceSale)
+            {
+                if (amountOfItems[choiceItem] <= choiceAmount)
+                {
+                    Console.WriteLine("\n    У вас не оказалось нужного количества товара! Нажмите любую кнопку для обновления....");
+                    Console.ReadKey();
+                }
+                else
+                {
+                    money += choiceAmount * priceToSell[choiceItem];
+                    amountOfItems[choiceItem] -= choiceAmount;
+                    Console.WriteLine($"\n     Успешная сделка! У Вас купили {items[choiceItem]} в размере {choiceAmount} шт.  Нажмите любую кнопку для обновления....");
+                    Console.ReadKey();
+                }
+            }
+            else
+            {
+                Console.WriteLine("\n    Сегодня плохой день, покупатели пролистывают мимо :( Нажмите любую кнопку для обновления....");
+                Console.ReadKey();
+            }
+        }
+
+        static void BuyAdd(ref int money, ref int chanceSale)
+        {
+            Console.WriteLine("\n--Покупка рекламы--");
+            
+            if (CheckMoney(ref money, 300, 1))
+            {
+                chanceSale += 25;
+                Console.WriteLine("\n     Реклама успешно куплена, Ваши товары стали популярней! Нажмите любую ннопку для обновления....");
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.WriteLine("\n     У вас не хватило денег на рекламу :( Нажмите любую ннопку для обновления....");
+                Console.ReadKey();
+            }
+        }
+    }
+}
