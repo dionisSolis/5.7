@@ -6,23 +6,24 @@ namespace OZON
         static void Main(string[] args)
         {
             Random random = new Random();
-            int money = 100;
+            int money = 10000;
             string[] items = { "Энергетик Monster", "Футболка Levis", "Наушники AirPods" };
             int[] amountOfItems = new int[3];
             int[] priceToBuy = {random.Next(100, 300), random.Next(400, 600), random.Next(700, 999)};
             int[] priceToSell = {random.Next(200, 400), random.Next(500, 700), random.Next(800, 1999)};
-            int chanceSale = 30, chanceLostMoney = 0; 
+            int chanceSale = 30, chanceLostMoney = 0;
+            int ageOfBusiness = 0;
             string userInput;
             bool isPlay = true;
 
             Console.WriteLine("Игра 'OZON'\nНажмите любую кнопку, чтобы начать....");
             Console.ReadKey();
 
-            while (isPlay)
+            while (isPlay || money <= 0)
             {
                 Console.Clear();
                 Console.WriteLine("         O Z O N\n");
-                ShowInfo(money, items, amountOfItems, priceToBuy, priceToSell, chanceSale, chanceLostMoney);
+                ShowInfo(money, items, amountOfItems, priceToBuy, priceToSell, chanceSale, chanceLostMoney, ageOfBusiness);
                 Console.Write("\n--Выберите команду--\n\n    1)Закупка товара\n    2)Продажа товара\n    3)Покупка рекламы - 300\n    4)Конец игры\n\n    Ввод... ");
                 userInput = Console.ReadLine();
 
@@ -49,18 +50,20 @@ namespace OZON
                 chanceSale -= 5;
                 chanceLostMoney = chanceSale - 30;
                 LoseMoney(ref money, chanceLostMoney, random);
+                ageOfBusiness += 1;
             }
 
             Console.WriteLine("         \nGame over!");
             Console.ReadKey();
         }
 
-        static void ShowInfo(int money, string[] items, int[] amountOfItems, int[] priceToBuy, int[] priceToSell, int chanceSell, int chanceLostMoney)
+        static void ShowInfo(int money, string[] items, int[] amountOfItems, int[] priceToBuy, int[] priceToSell, int chanceSell, int chanceLostMoney, int age)
         {
             Console.WriteLine("--Информация о бизнесе--\n");
             Console.WriteLine($"    Количество денег: {money}");
             Console.WriteLine($"    Шанс продажи: {chanceSell}");
             Console.WriteLine($"    Шанс непредвиденных ситуаций: {chanceLostMoney}");
+            Console.WriteLine($"    Продолжительность жизни бизнеса: {age} иттерац.");
             Console.WriteLine("    Предметы в наличии:");
 
             for (int i = 0; i < items.Length; i++)
@@ -92,6 +95,7 @@ namespace OZON
                 Console.ReadKey();
             }
         }
+        
         static void BuyNewItem(ref int money, ref string[] items, ref int[] amountOfItems, ref int[] priceToBuy)
         {
             int indexToAdd;
