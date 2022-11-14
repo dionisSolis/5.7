@@ -9,8 +9,8 @@ namespace OZON
             int money = 10000;
             string[] items = { "Энергетик Monster", "Футболка Levis", "Наушники AirPods" };
             int[] amountOfItems = new int[3];
-            int[] priceToBuy = {random.Next(100, 300), random.Next(400, 600), random.Next(700, 999)};
-            int[] priceToSell = {random.Next(200, 400), random.Next(500, 700), random.Next(800, 1999)};
+            int[] priceToBuy = { random.Next(100, 300), random.Next(400, 600), random.Next(700, 999) };
+            int[] priceToSell = { random.Next(200, 400), random.Next(500, 700), random.Next(800, 1999) };
             int chanceSale = 30, chanceLostMoney = 0;
             int ageOfBusiness = 0;
             string userInput;
@@ -23,6 +23,7 @@ namespace OZON
             {
                 Console.Clear();
                 Console.WriteLine("         O Z O N\n");
+                CheckChanses(ref chanceSale, ref chanceLostMoney);
                 ShowInfo(money, items, amountOfItems, priceToBuy, priceToSell, chanceSale, chanceLostMoney, ageOfBusiness);
                 Console.Write("\n--Выберите команду--\n\n    1)Закупка товара\n    2)Продажа товара\n    3)Покупка рекламы - 300\n    4)Конец игры\n\n    Ввод... ");
                 userInput = Console.ReadLine();
@@ -68,7 +69,7 @@ namespace OZON
 
             for (int i = 0; i < items.Length; i++)
             {
-                Console.WriteLine($"    @{i+1} {items[i]}({amountOfItems[i]}шт.) - цена для продажи {priceToSell[i]} (закупочная цена {priceToBuy[i]})");
+                Console.WriteLine($"    @{i + 1} {items[i]}({amountOfItems[i]}шт.) - цена для продажи {priceToSell[i]} (закупочная цена {priceToBuy[i]})");
             }
         }
 
@@ -83,10 +84,10 @@ namespace OZON
             {
                 return false;
             }
-            
+
         }
 
-        static void LoseMoney(ref int money, int chance,  Random random)
+        static void LoseMoney(ref int money, int chance, Random random)
         {
             if (random.Next(100) <= chance)
             {
@@ -95,7 +96,7 @@ namespace OZON
                 Console.ReadKey();
             }
         }
-        
+
         static void BuyNewItem(ref int money, ref string[] items, ref int[] amountOfItems, ref int[] priceToBuy)
         {
             int indexToAdd;
@@ -162,10 +163,22 @@ namespace OZON
             }
         }
 
+        static void CheckChanses(ref int firstChance, ref int secondChance)
+        {
+            if (firstChance < 0)
+            {
+                firstChance = 0;
+            }
+
+            if (secondChance < 0)
+            {
+                secondChance = 0;
+            }
+        }
         static void BuyAdd(ref int money, ref int chanceSale)
         {
             Console.WriteLine("\n--Покупка рекламы--");
-            
+
             if (CheckMoney(ref money, 300, 1))
             {
                 chanceSale += 25;
