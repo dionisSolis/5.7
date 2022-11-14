@@ -164,35 +164,18 @@ namespace OZON
             }
         }
 
-        static void CheckChanсes(ref int сhance)
+        static void CheckChanсes(ref int chance)
         {
-            сhance = FindMax(0, сhance);
-            сhance = FindMin(100, сhance);
-        }
-
-        static int FindMin(int firstDigit, int secondDigit)
-        {
-            if (firstDigit < secondDigit)
+            if (chance < 0)
             {
-                return firstDigit;
+                chance = 0;
             }
-            else
+            else if (chance > 100)
             {
-                return secondDigit;
+                chance = 100;
             }
         }
-
-        static int FindMax(int firstDigit, int secondDigit)
-        {
-            if (firstDigit > secondDigit)
-            {
-                return firstDigit;
-            }
-            else
-            {
-                return secondDigit;
-            }
-        }
+        
         static void BuyAd(ref int money, ref int chanceSale)
         {
             Console.WriteLine("\n--Покупка рекламы--");
