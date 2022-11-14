@@ -23,7 +23,7 @@ namespace OZON
             {
                 Console.Clear();
                 Console.WriteLine("         O Z O N\n");
-                CheckChanses(ref chanceSale, ref chanceLostMoney);
+                CheckChanсes(ref chanceSale, ref chanceLostMoney);
                 ShowInfo(money, items, amountOfItems, priceToBuy, priceToSell, chanceSale, chanceLostMoney, ageOfBusiness);
                 Console.Write("\n--Выберите команду--\n\n    1)Закупка товара\n    2)Продажа товара\n    3)Покупка рекламы - 300\n    4)Конец игры\n\n    Ввод... ");
                 userInput = Console.ReadLine();
@@ -37,7 +37,7 @@ namespace OZON
                         SellItem(random, ref items, ref amountOfItems, ref priceToSell, ref money, ref chanceSale);
                         break;
                     case "3":
-                        BuyAdd(ref money, ref chanceSale);
+                        BuyAd(ref money, ref chanceSale);
                         break;
                     case "4":
                         isPlay = false;
@@ -175,7 +175,7 @@ namespace OZON
                 secondChance = 0;
             }
         }
-        static void BuyAdd(ref int money, ref int chanceSale)
+        static void BuyAd(ref int money, ref int chanceSale)
         {
             Console.WriteLine("\n--Покупка рекламы--");
 
