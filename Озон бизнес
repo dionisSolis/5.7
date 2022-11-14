@@ -194,6 +194,7 @@ namespace OZON
                 return secondDigit;
             }
         }
+        
         static void BuyAd(ref int money, ref int chanceSale)
         {
             Console.WriteLine("\n--Покупка рекламы--");
