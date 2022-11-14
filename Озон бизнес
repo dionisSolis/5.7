@@ -141,6 +141,7 @@ namespace OZON
             int choiceAmount = random.Next(1, 10);
 
             Console.WriteLine("\n--Продажа товара--");
+            
             if (random.Next(101) <= chanceSale)
             {
                 if (amountOfItems[choiceItem] <= choiceAmount)
