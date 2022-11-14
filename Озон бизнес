@@ -165,15 +165,33 @@ namespace OZON
 
         static void CheckChanсes(ref int firstChance, ref int secondChance)
         {
-            if (firstChance < 0 || firstChance > 100)
-            {
-                firstChance = 0;
-                firstChance = 100;
-            }
+            firstChance = FindMax(0, firstChance);
+            firstChance = FindMin(100, firstChance);
+            secondChance = FindMax(0, secondChance);
+            secondChance = FindMin(100, secondChance);
+        }
 
-            if (secondChance < 0)
+        static int FindMin(int firstDigit, int secondDigit)
+        {
+            if (firstDigit < secondDigit)
             {
-                secondChance = 0;
+                return firstDigit;
+            }
+            else
+            {
+                return secondDigit;
+            }
+        }
+
+        static int FindMax(int firstDigit, int secondDigit)
+        {
+            if (firstDigit > secondDigit)
+            {
+                return firstDigit;
+            }
+            else
+            {
+                return secondDigit;
             }
         }
         static void BuyAd(ref int money, ref int chanceSale)
