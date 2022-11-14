@@ -165,9 +165,10 @@ namespace OZON
 
         static void CheckChanсes(ref int firstChance, ref int secondChance)
         {
-            if (firstChance < 0)
+            if (firstChance < 0 || firstChance > 100)
             {
                 firstChance = 0;
+                firstChance = 100;
             }
 
             if (secondChance < 0)
