@@ -163,7 +163,7 @@ namespace OZON
             }
         }
 
-        static void CheckChanses(ref int firstChance, ref int secondChance)
+        static void CheckChanсes(ref int firstChance, ref int secondChance)
         {
             if (firstChance < 0)
             {
