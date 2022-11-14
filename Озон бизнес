@@ -23,7 +23,8 @@ namespace OZON
             {
                 Console.Clear();
                 Console.WriteLine("         O Z O N\n");
-                CheckChanсes(ref chanceSale, ref chanceLostMoney);
+                CheckChanсes(ref chanceSale);
+                CheckChanсes(ref chanceLostMoney);
                 ShowInfo(money, items, amountOfItems, priceToBuy, priceToSell, chanceSale, chanceLostMoney, ageOfBusiness);
                 Console.Write("\n--Выберите команду--\n\n    1)Закупка товара\n    2)Продажа товара\n    3)Покупка рекламы - 300\n    4)Конец игры\n\n    Ввод... ");
                 userInput = Console.ReadLine();
@@ -140,7 +141,7 @@ namespace OZON
             int choiceAmount = random.Next(1, 10);
 
             Console.WriteLine("\n--Продажа товара--");
-            
+
             if (random.Next(101) <= chanceSale)
             {
                 if (amountOfItems[choiceItem] <= choiceAmount)
@@ -163,12 +164,10 @@ namespace OZON
             }
         }
 
-        static void CheckChanсes(ref int firstChance, ref int secondChance)
+        static void CheckChanсes(ref int сhance)
         {
-            firstChance = FindMax(0, firstChance);
-            firstChance = FindMin(100, firstChance);
-            secondChance = FindMax(0, secondChance);
-            secondChance = FindMin(100, secondChance);
+            сhance = FindMax(0, сhance);
+            сhance = FindMin(100, сhance);
         }
 
         static int FindMin(int firstDigit, int secondDigit)
@@ -194,7 +193,6 @@ namespace OZON
                 return secondDigit;
             }
         }
-        
         static void BuyAd(ref int money, ref int chanceSale)
         {
             Console.WriteLine("\n--Покупка рекламы--");
