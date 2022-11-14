@@ -84,7 +84,6 @@ namespace OZON
             {
                 return false;
             }
-
         }
 
         static void LoseMoney(ref int money, int chance, Random random)
